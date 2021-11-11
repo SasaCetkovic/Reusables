@@ -7,7 +7,9 @@
 #Core editorconfig formatting - indentation
 
 #use hard tabs for indentation
+indent_size = 4
 indent_style = tab
+tab_width = 4
 
 #Formatting - new line options
 
