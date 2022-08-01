@@ -165,11 +165,17 @@ namespace Common
             return (uint)(value.Mantissa * BigInteger.Pow(10, value.Exponent));
         }
 
-        #endregion
+		public static explicit operator BigInteger(BigDecimal value)
+		{
+			BigDecimal floored = value.Floor();
+			return floored.Mantissa * BigInteger.Pow(10, floored.Exponent);
+		}
 
-        #region Operators
+		#endregion
 
-        public static BigDecimal operator +(BigDecimal value)
+		#region Operators
+
+		public static BigDecimal operator +(BigDecimal value)
         {
             return value;
         }
