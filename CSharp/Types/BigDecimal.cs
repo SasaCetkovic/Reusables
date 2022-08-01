@@ -46,24 +46,30 @@ namespace Common
         /// </summary>
         public void Normalize()
         {
-            if (Mantissa.IsZero)
-            {
-                Exponent = 0;
-            }
-            else
-            {
-                BigInteger remainder = 0;
-                while (remainder == 0)
-                {
-                    var shortened = BigInteger.DivRem(Mantissa, 10, out remainder);
-                    if (remainder == 0)
-                    {
-                        Mantissa = shortened;
-                        Exponent++;
-                    }
-                }
-            }
-        }
+			if (Exponent == 0) return;
+
+			if (Mantissa.IsZero)
+			{
+				Exponent = 0;
+			}
+			else
+			{
+				BigInteger remainder = 0;
+
+				while (remainder == 0)
+				{
+					var shortened = BigInteger.DivRem(dividend: this.Mantissa, divisor: 10, remainder: out remainder);
+
+					if (remainder != 0)
+					{
+						continue;
+					}
+
+					Mantissa = shortened;
+					Exponent++;
+				}
+			}
+		}
 
         /// <summary>
         /// Truncate the number to the given precision by removing the least significant digits.
