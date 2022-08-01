@@ -99,11 +99,20 @@ namespace Common
 
         public static int NumberOfDigits(BigInteger value)
         {
-            // do not count the sign
-            //return (value * value.Sign).ToString().Length;
-            // faster version
-            return (int)Math.Ceiling(BigInteger.Log10(value * value.Sign));
-        }
+			if (value.IsZero)
+			{
+				return 1;
+			}
+
+			double NumberOfDigits = BigInteger.Log10(value * value.Sign);
+
+			if (NumberOfDigits % 1 == 0)
+			{
+				return (int)NumberOfDigits + 1;
+			}
+
+			return (int)Math.Ceiling(NumberOfDigits);
+		}
 
         #region Conversions
 
