@@ -71,20 +71,21 @@ namespace Common
         /// <returns>The truncated number</returns>
         public BigDecimal Truncate(int precision)
         {
-            // copy this instance (remember it's a struct)
-            var shortened = this;
-            // save some time because the number of digits is not needed to remove trailing zeros
-            shortened.Normalize();
-            // remove the least significant digits, as long as the number of digits is higher than the given Precision
-            while (NumberOfDigits(shortened.Mantissa) > precision)
-            {
-                shortened.Mantissa /= 10;
-                shortened.Exponent++;
-            }
-            // normalize again to make sure there are no trailing zeros left
-            shortened.Normalize();
-            return shortened;
-        }
+			// copy this instance (remember it's a struct)
+			var shortened = this;
+			// save some time because the number of digits is not needed to remove trailing zeros
+			shortened.Normalize();
+
+			// remove the least significant digits, as long as the number of digits is higher than the given Precision
+			int Digits = NumberOfDigits(shortened.Mantissa);
+			int DigitsToRemove = Math.Max(Digits - precision, 0);
+			shortened.Mantissa /= BigInteger.Pow(10, DigitsToRemove);
+			shortened.Exponent += DigitsToRemove;
+
+			// normalize again to make sure there are no trailing zeros left
+			shortened.Normalize();
+			return shortened;
+		}
 
         public BigDecimal Truncate()
         {
